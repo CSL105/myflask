@@ -36,3 +36,46 @@ class User(db.Model):
 
     def __repr__(self):
         return '<email {}'.format(self.email)
+
+
+class ProductPictures(db.Model):
+
+    __tablename__ = 'product_pictures'
+
+    picture_id = db.Column(db.Integer, primary_key=True)
+    picture_name = db.Column(db.String)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+
+    def __repr__(self):
+        return self.picture_name
+
+
+class Products(db.Model):
+
+    __tablename__ = 'products'
+
+    product_id = db.Column(db.Integer, primary_key=True)
+    product_name = db.Column(db.String, nullable=False)
+    product_text = db.Column(db.String)
+    is_on_first = db.Column(db.Integer)
+    is_rolling = db.Column(db.Integer)
+    main_picture = db.Column(db.String)
+    create_time = db.Column(db.DATETIME)
+    Update_time = db.Column(db.DATETIME)
+    product_pictures = db.relationship('ProductPictures', backref=db.backref('products'))
+
+    def __repr__(self):
+        return self.product_name
+
+
+class Tips(db.Model):
+
+    __tablename__ = 'tips'
+
+    tip_id = db.Column(db.Integer, primary_key=True)
+    tip_name = db.Column(db.String, nullable=False)
+    tip_note = db.Column(db.String)
+
+    def __repr__(self):
+        return self.tip_name
+
