@@ -67,7 +67,7 @@ def drop_db():
 @manager.command
 def create_admin():
     """Creates the admin user."""
-    db.session.add(User("ad@min.com", "admin"))
+    db.session.add(User("ad@min.com", "admin", admin=True))
     db.session.commit()
 
 

@@ -38,16 +38,44 @@ class User(db.Model):
         return '<email {}'.format(self.email)
 
 
-class ProductPictures(db.Model):
+class Tips(db.Model):
 
-    __tablename__ = 'product_pictures'
+    __tablename__ = 'tips'
+
+    tip_id = db.Column(db.Integer, primary_key=True)
+    tip_name = db.Column(db.String, nullable=False)
+    tip_note = db.Column(db.String)
+    tips_products = db.relationship('ProductsTips', backref='tips')
+
+    def __repr__(self):
+        return self.tip_name
+
+
+class Pictures(db.Model):
+
+    __tablename__ = 'pictures'
 
     picture_id = db.Column(db.Integer, primary_key=True)
     picture_name = db.Column(db.String)
+    is_main = db.Column(db.Integer)
     product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
 
     def __repr__(self):
         return self.picture_name
+
+
+class Types(db.Model):
+
+    __tablename__ = 'types'
+
+    type_id = db.Column(db.Integer, primary_key=True)
+    type_name = db.Column(db.String, nullable=False)
+    type_note = db.Column(db.Text)
+    parent_type_id = db.Column(db.Integer)
+    product_type = db.relationship('Products', backref='types')
+
+    def __repr__(self):
+        return self.type_name
 
 
 class Products(db.Model):
@@ -59,23 +87,25 @@ class Products(db.Model):
     product_text = db.Column(db.String)
     is_on_first = db.Column(db.Integer)
     is_rolling = db.Column(db.Integer)
-    main_picture = db.Column(db.String)
     create_time = db.Column(db.DATETIME)
     Update_time = db.Column(db.DATETIME)
-    product_pictures = db.relationship('ProductPictures', backref=db.backref('products'))
+    type_id = db.Column(db.Integer, db.ForeignKey('types.type_id'))
+    product_pictures = db.relationship('Pictures', backref='products')
+    products_tips = db.relationship('ProductsTips', backref='products')
 
     def __repr__(self):
         return self.product_name
 
 
-class Tips(db.Model):
+class ProductsTips(db.Model):
 
-    __tablename__ = 'tips'
+    __tablename__ = 'products_tips'
 
-    tip_id = db.Column(db.Integer, primary_key=True)
-    tip_name = db.Column(db.String, nullable=False)
-    tip_note = db.Column(db.String)
+    product_tip_id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+    tip_id = db.Column(db.Integer, db.ForeignKey('tips.tip_id'))
 
     def __repr__(self):
-        return self.tip_name
+        return self.product_tip_id
+
 
