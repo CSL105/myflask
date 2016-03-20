@@ -6,6 +6,7 @@
 <br>
 <form class="form-signin" role="form" method="post" action="">
   {{ form.csrf_token }}
+  {{ form.email.label }}：
   {{ form.email(placeholder="email") }}
     <span class="error">
       {% if form.email.errors %}
@@ -16,6 +17,7 @@
     </span>
   </p>
   <p>
+  {{ form.password.label }}：
   {{ form.password(placeholder="password") }}
     <span class="error">
       {% if form.password.errors %}
@@ -26,6 +28,7 @@
     </span>
   </p>
   <p>
+  {{ form.confirm.label }}：
   {{ form.confirm(placeholder="confirm") }}
     <span class="error">
       {% if form.confirm.errors %}

@@ -43,8 +43,10 @@ db = SQLAlchemy(app)
 
 from project.main.views import main_blueprint
 from project.user.views import user_blueprint
+from project.furniture.views import furniture_blueprint
 app.register_blueprint(main_blueprint)
 app.register_blueprint(user_blueprint)
+app.register_blueprint(furniture_blueprint)
 
 
 ####################

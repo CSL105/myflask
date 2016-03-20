@@ -44,7 +44,7 @@ class Tips(db.Model):
 
     tip_id = db.Column(db.Integer, primary_key=True)
     tip_name = db.Column(db.String, nullable=False)
-    tip_note = db.Column(db.String)
+    tip_note = db.Column(db.Text)
     tips_products = db.relationship('ProductsTips', backref='tips')
 
     def __repr__(self):
@@ -57,6 +57,7 @@ class Pictures(db.Model):
 
     picture_id = db.Column(db.Integer, primary_key=True)
     picture_name = db.Column(db.String)
+    picture_url = db.Column(db.String)
     is_main = db.Column(db.Integer)
     product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
 
@@ -83,8 +84,9 @@ class Products(db.Model):
     __tablename__ = 'products'
 
     product_id = db.Column(db.Integer, primary_key=True)
+    product_code = db.Column(db.String, nullable=False)
     product_name = db.Column(db.String, nullable=False)
-    product_text = db.Column(db.String)
+    product_text = db.Column(db.Text)
     is_on_first = db.Column(db.Integer)
     is_rolling = db.Column(db.Integer)
     create_time = db.Column(db.DATETIME)

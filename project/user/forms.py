@@ -1,31 +1,32 @@
+# coding:utf-8
 # project/user/forms.py
 
 
 from flask_wtf import Form
-from wtforms import TextField, PasswordField
+from wtforms import TextField, PasswordField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 from project.models import User
 
 
 class LoginForm(Form):
-    email = TextField('email', validators=[DataRequired(), Email()])
-    password = PasswordField('password', validators=[DataRequired()])
+    email = StringField(u'邮箱', validators=[DataRequired(), Email()])
+    password = PasswordField(u'密码', validators=[DataRequired()])
 
 
 class RegisterForm(Form):
-    email = TextField(
-        'email',
+    email = StringField(
+        u'邮箱',
         validators=[DataRequired(), Email(message=None), Length(min=6, max=40)])
     password = PasswordField(
-        'password',
+        u'密码',
         validators=[DataRequired(), Length(min=6, max=25)]
     )
     confirm = PasswordField(
-        'Repeat password',
+        u'再次输入密码',
         validators=[
             DataRequired(),
-            EqualTo('password', message='Passwords must match.')
+            EqualTo('password', message=u'密码不匹配')
         ]
     )
 
@@ -35,20 +36,20 @@ class RegisterForm(Form):
             return False
         user = User.query.filter_by(email=self.email.data).first()
         if user:
-            self.email.errors.append("Email already registered")
+            self.email.errors.append(u"邮箱已被注册")
             return False
         return True
 
 
 class ChangePasswordForm(Form):
     password = PasswordField(
-        'password',
+        u'新密码',
         validators=[DataRequired(), Length(min=6, max=25)]
     )
     confirm = PasswordField(
-        'Repeat password',
+        u'再次输入密码',
         validators=[
             DataRequired(),
-            EqualTo('password', message='Passwords must match.')
+            EqualTo('password', message=u'密码必须匹配')
         ]
     )
