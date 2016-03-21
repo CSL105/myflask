@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Tip List</h1>
+<h1>Tips List</h1>
 <a href="/tip_create">新建标签</a>
 <br>
 <table class="table">
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for tip in tips %}
+        {% for tip in pagination.items %}
         <tr>
             <td>{{ tip.tip_name }}</td>
             <td>{{ tip.tip_note }}</td>

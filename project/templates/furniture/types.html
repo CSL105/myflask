@@ -1,0 +1,48 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h1>Types List</h1>
+<a href="/type_create">新建类型</a>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>类型名称</th>
+            <th>类型描述</th>
+            <th>父类型</th>
+            <th>编辑</th>
+            <th>删除</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type in types %}
+        <tr>
+            <td>{{ type.Types.type_name }}</td>
+            <td>{{ type.Types.type_note }}</td>
+            <td>{{ type.parent_types.type_name }}</td>
+            <td><a href="/type_edit/{{ type.Types.type_id }}">编辑</a></td>
+            <td><a href="/type_delete/{{ type.Types.type_id }}">删除</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<ul class="pagination pagination-ms">
+    <li class="active">
+            {% if page.has_previous %}
+                <a href="/types/{{ page.page_index - 1 }}">previous</a>
+            {% endif %}
+    </li>
+    <li class="active">
+            <a href="#">Page {{ page.page_index }} of {{ page.page_count }}.</a>
+    </li>
+    <li class="active">
+            {% if page.has_next %}
+                <a href="/types/{{ page.page_index + 1 }}">next</a>
+            {% endif %}
+    </li>
+
+</ul>
+{% endblock %}

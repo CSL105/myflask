@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h1>Tip Edit</h1>
+<br>
+<form class="form-group" role="form" method="post" action="">
+  {{ form.csrf_token }}
+  <p>
+  {{ form.type_name.label }}：
+  {{ form.type_name }}
+  </p>
+  <p>
+  {{ form.type_note.label }}：
+  {{ form.type_note }}
+  </p>
+  <p>
+  {{ form.parent_type_id.label }}：
+  {{ form.parent_type_id }}
+  </p>
+
+  <button class="btn btn-success" type="submit">submit</button>
+  <br><br>
+</form>
+
+{% endblock %}
