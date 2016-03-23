@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h1>Product Edit</h1>
+<br>
+<form class="form-group" role="form" method="post" enctype=multipart/form-data action="">
+  {{ form.csrf_token }}
+  <p>
+  {{ form.type_id.label }}：
+  {{ form.type_id }}
+  </p>
+  <p>
+  {{ form.product_code.label }}：
+  {{ form.product_code }}
+  </p>
+  <p>
+  {{ form.product_name.label }}：
+  {{ form.product_name }}
+  </p>
+  <p>
+  {{ form.is_on_first.label }}：
+  {{ form.is_on_first }}
+  </p>
+  <p>
+  {{ form.is_rolling.label }}：
+  {{ form.is_rolling }}
+  </p>
+  <p>
+  {{ form.product_text.label }}：
+  {{ form.product_text }}
+  </p>
+  <p>
+  {{ form.product_tips.label }}：
+  {{ form.product_tips }}
+  </p>
+  <p>
+  {{ form.main_picture.label }}：
+  {{ form.main_picture }}
+  </p>
+  <p>
+      <label>产品图片</label>：<input type="file" multiple="" name="product_pictures"/>
+  </p>
+
+  <button class="btn btn-success" type="submit">保存</button>
+  <a class="btn btn-success" href="/products">取消</a>
+  <br><br>
+</form>
+
+{% endblock %}

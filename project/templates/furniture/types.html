@@ -28,21 +28,5 @@
     </tbody>
 </table>
 
-
-<ul class="pagination pagination-ms">
-    <li class="active">
-            {% if page.has_previous %}
-                <a href="/types/{{ page.page_index - 1 }}">previous</a>
-            {% endif %}
-    </li>
-    <li class="active">
-            <a href="#">Page {{ page.page_index }} of {{ page.page_count }}.</a>
-    </li>
-    <li class="active">
-            {% if page.has_next %}
-                <a href="/types/{{ page.page_index + 1 }}">next</a>
-            {% endif %}
-    </li>
-
-</ul>
+{{ pagination_macro('/types/', page) }}
 {% endblock %}

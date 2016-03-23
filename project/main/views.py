@@ -5,9 +5,12 @@
 #### imports ####
 #################
 
-from flask import render_template, Blueprint
 from flask.ext.login import login_required
-
+from flask import render_template, Blueprint, url_for, redirect, flash, request
+from project.models import Tips, Types, Products, ProductsTips, Pictures
+from project import db
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql import exists
 
 ################
 #### config ####
@@ -21,6 +24,5 @@ main_blueprint = Blueprint('main', __name__,)
 ################
 
 @main_blueprint.route('/')
-@login_required
 def home():
     return render_template('main/index.html')

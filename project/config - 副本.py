@@ -33,9 +33,16 @@ class TestingConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     """Production configuration."""
+    import sae.const
+    name = sae.const.MYSQL_DB
+    user = sae.const.MYSQL_USER
+    password = sae.const.MYSQL_PASS
+    host = sae.const.MYSQL_HOST
+    port = sae.const.MYSQL_PORT
+    host_s = sae.const.MYSQL_HOST_S
     SECRET_KEY = 'my_precious'
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'mysql://%s:%s@%s:%s/%s?charset=utf8' % (user, password, host, port, name)
     DEBUG_TB_ENABLED = False
     STRIPE_SECRET_KEY = 'foo'
     STRIPE_PUBLISHABLE_KEY = 'bar'

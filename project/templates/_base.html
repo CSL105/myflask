@@ -1,4 +1,23 @@
 <!DOCTYPE html>
+
+{% macro pagination_macro(url, page) %}
+    <ul class="pagination">
+        {% if page.has_previous %}
+            <li class="previous"><a href="{{ url }}{{ page.page_index - 1 }}">上一页</a></li>
+        {% endif %}
+        {% for i in range(1, page.button_num + 1) %}
+            {% if i == page.page_index %}
+                <li class="active"><a href="{{ url }}{{ i }}"><span>{{ i }}</span></a></li>
+            {% else %}
+                <li><a href="{{ url }}{{ i }}"><span>{{ i }}</span></a></li>
+            {% endif %}
+        {% endfor %}
+        {% if page.has_next %}
+            <li class="next"><a href="{{ url }}{{ page.page_index + 1 }}">下一页</a></li>
+        {% endif %}
+    </ul>
+{% endmacro %}
+
 <html>
   <head>
     <meta charset="utf-8">

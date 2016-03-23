@@ -5,7 +5,7 @@
 <h1>Tips List</h1>
 <a href="/tip_create">新建标签</a>
 <br>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>标签名称</th>
@@ -26,21 +26,6 @@
     </tbody>
 </table>
 
+{{ pagination_macro('/tips/', page) }}
 
-<ul class="pagination pagination-ms">
-    <li class="active">
-            {% if pagination.has_prev %}
-                <a href="/tips/{{ pagination.prev_num }}">previous</a>
-            {% endif %}
-    </li>
-    <li class="active">
-            <a href="#">Page {{ pagination.page }} of {{ pagination.pages }}.</a>
-    </li>
-    <li class="active">
-            {% if pagination.has_next %}
-                <a href="/tips/{{ pagination.next_num }}">next</a>
-            {% endif %}
-    </li>
-
-</ul>
 {% endblock %}

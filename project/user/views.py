@@ -12,9 +12,9 @@ from flask.ext.login import login_user, logout_user, \
 
 from project.models import User
 # from project.email import send_email
-from project import db, bcrypt
+from project import db
 from .forms import LoginForm, RegisterForm, ChangePasswordForm
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 ################
 #### config ####
@@ -28,6 +28,7 @@ user_blueprint = Blueprint('user', __name__,)
 ################
 
 @user_blueprint.route('/register', methods=['GET', 'POST'])
+@login_required
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
@@ -51,11 +52,14 @@ def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(
-                user.password, request.form['password']):
+        if user and check_password_hash(user.password, request.form['password']):
             login_user(user)
             flash('Welcome.', 'success')
-            return redirect(url_for('main.home'))
+            this_next = request.args.get('next')
+            if not this_next:
+                return redirect(url_for('main.home'))
+            else:
+                return redirect(this_next)
         else:
             flash('Invalid email and/or password.', 'danger')
             return render_template('user/login.html', form=form)
@@ -77,7 +81,7 @@ def profile():
     if form.validate_on_submit():
         user = User.query.filter_by(email=current_user.email).first()
         if user:
-            user.password = bcrypt.generate_password_hash(form.password.data)
+            user.password = generate_password_hash(form.password.data)
             db.session.commit()
             flash('Password successfully changed.', 'success')
             return redirect(url_for('user.profile'))
