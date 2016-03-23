@@ -4,6 +4,7 @@
 import datetime
 
 from project import db
+from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -93,6 +94,10 @@ class Products(db.Model):
     Update_time = db.Column(db.DATETIME)
     type_id = db.Column(db.Integer)
     product_tips = db.Column(db.String)
+
+    def query_main_products_url(self):
+        obj = self.filter_by(self.is_rolling == 1).order_by(desc(self.Update_time)).limit(5).offset(0)
+        return obj.main_picture_url
 
     def __repr__(self):
         return self.product_name

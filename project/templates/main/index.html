@@ -2,7 +2,27 @@
 {% block content %}
 
 <h1>Welcome!</h1>
-<br>
-<p><a href="/logout">Logout</a>
 
+{% if rolling_num > 0 %}
+<div id="carousel-ad" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      {% for i in range(1, rolling_num + 1) %}
+          {% if i == 1 %}
+              <li data-target="#carousel-ad" data-slide-to={{ i - 1 }} class="active"></li>
+          {% else %}
+              <li data-target="#carousel-ad" data-slide-to={{ i - 1 }}></li>
+          {% endif %}
+      {% endfor %}
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      {% for i in range(1, rolling_num + 1) %}
+        {% if i == 1 %}
+            <div class="item active"><img class="img-responsive" src={{ main_picture_urls[i - 1] }}></div>
+        {% else %}
+            <div class="item"><img class="img-responsive" src={{ main_picture_urls[i - 1] }}></div>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+{% endif %}
 {% endblock %}
