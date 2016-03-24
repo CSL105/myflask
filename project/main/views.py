@@ -1,3 +1,4 @@
+# coding:utf-8
 # project/main/views.py
 
 
@@ -12,6 +13,9 @@ from project import db
 from sqlalchemy.orm import aliased
 from sqlalchemy.sql import exists
 from sqlalchemy import desc
+import os
+
+basedir = os.path.basename(os.path.dirname(__file__))
 
 ################
 #### config ####
@@ -32,12 +36,27 @@ def home():
 
 @main_blueprint.route('/')
 def home():
+    # 获取滚动图片及产品id
     main_picture_urls = []
-    main_picture_products = db.session.query(Products).filter(Products.is_rolling == 1).order_by(desc(Products.Update_time)).limit(5).offset(0)
+    main_picture_products = db.session.query(Products).filter(Products.is_rolling == 1).order_by(
+        desc(Products.Update_time)).limit(5).offset(0)
     for main_product in main_picture_products:
         main_picture_urls.append((main_product.main_picture_url, main_product.product_id))
     rolling_num = len(main_picture_urls)
-    return render_template('main/index.html', main_picture_urls=main_picture_urls, rolling_num=rolling_num)
+    # 获取各类型下需要展示的图片及产品id
+    types_products = []
+    types = db.session.query(Types).filter().order_by(Types.type_id).all()
+    for this_type in types:
+        type_products = db.session.query(Products).filter(Products.type_id == this_type.type_id and
+                                                          Products.is_on_first == 1).order_by(
+            desc(Products.Update_time)).limit(6).offset(0)
+        for product in type_products:
+            types_products.append((this_type.type_id, this_type.type_name,
+                                   product.product_id, product.main_picture_url,
+                                   product.product_name, product.product_text))
+
+    return render_template('main/index.html', main_picture_urls=main_picture_urls, rolling_num=rolling_num,
+                           types=types, types_products=types_products)
 
 
 

@@ -85,7 +85,8 @@ class Products(db.Model):
     product_id = db.Column(db.Integer, primary_key=True)
     product_code = db.Column(db.String, nullable=False)
     product_name = db.Column(db.String, nullable=False)
-    product_text = db.Column(db.Text)
+    product_text = db.Column(db.String)
+    product_md = db.Column(db.Text)
     is_on_first = db.Column(db.Integer)
     is_rolling = db.Column(db.Integer)
     main_picture = db.Column(db.String)
@@ -93,11 +94,6 @@ class Products(db.Model):
     create_time = db.Column(db.DATETIME)
     Update_time = db.Column(db.DATETIME)
     type_id = db.Column(db.Integer)
-    product_tips = db.Column(db.String)
-
-    def query_main_products_url(self):
-        obj = self.filter_by(self.is_rolling == 1).order_by(desc(self.Update_time)).limit(5).offset(0)
-        return obj.main_picture_url
 
     def __repr__(self):
         return self.product_name

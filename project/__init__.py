@@ -47,6 +47,12 @@ app.register_blueprint(user_blueprint)
 app.register_blueprint(furniture_blueprint)
 
 
+@app.template_filter('md')
+def markdown_to_html(txt):
+    from markdown import markdown
+    return markdown(txt)
+
+
 ####################
 #### flask-login ####
 ####################

@@ -209,7 +209,8 @@ def product_edit(product_id=None):
         type_id = SelectField(u'产品类型', choices=get_parent())
         product_code = StringField(u'产品编码')
         product_name = StringField(u'产品名称')
-        product_text = TextAreaField(u'产品描述')
+        product_text = TextAreaField(u'产品简介')
+        product_md = TextAreaField(u'产品详情')
         is_on_first = SelectField(u'是否显示在首页', choices=[(0, u'否'), (1, u'是')])
         is_rolling = SelectField(u'是否首页滚动展示', choices=[(0, u'否'), (1, u'是')])
         main_picture = FileField(u'产品主图')
@@ -225,6 +226,7 @@ def product_edit(product_id=None):
         product.product_code = form.product_code.data
         product.product_name = form.product_name.data
         product.product_text = form.product_text.data
+        product.product_md = form.product_md.data
         product.type_id = form.type_id.data
         product.is_on_first = form.is_on_first.data
         product.is_rolling = form.is_rolling.data
