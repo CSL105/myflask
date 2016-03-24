@@ -35,7 +35,7 @@ def home():
     main_picture_urls = []
     main_picture_products = db.session.query(Products).filter(Products.is_rolling == 1).order_by(desc(Products.Update_time)).limit(5).offset(0)
     for main_product in main_picture_products:
-        main_picture_urls.append(main_product.main_picture_url)
+        main_picture_urls.append((main_product.main_picture_url, main_product.product_id))
     rolling_num = len(main_picture_urls)
     return render_template('main/index.html', main_picture_urls=main_picture_urls, rolling_num=rolling_num)
 
