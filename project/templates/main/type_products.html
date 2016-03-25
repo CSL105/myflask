@@ -1,17 +1,17 @@
 {% extends "_base.html" %}
 {% block content %}
-<h2>{{ this_type[0].type_name }}</h2>
+<h2>{{ this_type.type_name }}</h2>
 <div>
     <div class="container-fluid">
         <div class="row">
             {% for product in products %}
                     <div class="col-xs-2">
-                        <a href="/product_edit/{{ product.product_id }}">
-                        <img src={{ product.main_picture_url + '?imageView2/2/h/200' }}>
+                        <a href="/product/{{ product.product_id }}">
+                        <img src={{ product.main_picture_url + '?imageView2/2/h/200/w/300' }}>
                         </a>
                     </div>
                     <div class="col-xs-4">
-                        <h4><a href="/product_edit/{{ product.product_id }}">
+                        <h4><a href="/product/{{ product.product_id }}">
                         <strong class="text-justify">{{ product.product_name }}</strong>
                         </a></h4>
                         <p class="text-left">{{ product.product_text }}</p>

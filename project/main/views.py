@@ -61,12 +61,25 @@ def home():
 
 
 @main_blueprint.route('/this_type/<int:type_id>')
-def this_type(type_id):
-    this_one_type = db.session.query(Types).filter(Types.type_id==type_id).all()
+def this_type_products(type_id):
+    this_one_type = db.session.query(Types).filter(Types.type_id == type_id).first()
 
     products = db.session.query(Products).filter(Products.type_id == type_id).order_by(
         desc(Products.Update_time)).all()
     return render_template('main/type_products.html', products=products, nav_types=get_nav_types(),
                            this_type=this_one_type)
+
+
+@main_blueprint.route('/product/<int:product_id>')
+def this_product(product_id):
+    product = db.session.query(Products).filter(Products.product_id == product_id).first()
+    product_type = db.session.query(Types).filter(Types.type_id == product.product_id).first()
+    product_tips = db.session.query(ProductsTips, Tips)\
+        .outerjoin(Tips, ProductsTips.tip_id == Tips.tip_id)\
+        .filter(ProductsTips.product_id == product_id).all()
+    product_pictures = db.session.query(Pictures).filter(Pictures.product_id == product_id).all()
+    return render_template('main/product.html', product=product, product_type=product_type,
+                           product_tips=product_tips, nav_types=get_nav_types(),
+                           product_pictures=product_pictures)
 
 

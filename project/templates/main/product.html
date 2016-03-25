@@ -1,0 +1,34 @@
+{% extends "_base.html" %}
+{% block content %}
+<br>
+<div>
+  <div class="container-fluid">
+     <div class="row">
+        <div class="col-xs-3">
+           <a href="{{ product.main_picture_url }}"><img src="{{ product.main_picture_url + '?imageView2/2/h/350/w/300' }}"></a>
+        </div>
+        <div class="col-xs-9">
+          <strong><h2>{{ product.product_name }}</h2></strong>
+          <p><strong>类型：</strong>{{ product_type.type_name }}</p>
+          <p><strong>标签：</strong>
+          {% for tip in product_tips %}
+              <label>{{ tip.Tips.tip_name }}</label>
+          {% endfor %}
+          </p>
+          <p>{{ product.product_text }}</p>
+        </div>
+     </div>
+  </div>
+  </br>
+  <div>
+      <p>{{ product.product_md|md|safe }}</p>
+  </div>
+  </br>
+  <div>
+         {% for picture in product_pictures %}
+             <a href="{{ picture.picture_url }}"><img src="{{ picture.picture_url + '?imageView2/2/h/450/w/700' }}" class="img-responsive center-block"></a>
+             </br>
+         {% endfor %}
+  </div>
+</div>
+{% endblock %}
