@@ -28,12 +28,17 @@ def get_page_index(page_str):
     return p
 
 
+def get_nav_types():
+    nav_types = Types.query.filter().all()
+    return nav_types
+
 # tips
 
 
 @furniture_blueprint.route('/tip_create', methods=['GET', 'POST'])
 @login_required
 def tip_create():
+    
     form = TipEditForm(request.form)
     if form.validate_on_submit():
         tip = Tips(tip_name=form.tip_name.data, tip_note=form.tip_note.data)
@@ -41,12 +46,13 @@ def tip_create():
         db.session.commit()
         flash(u'创建成功', 'success')
         return redirect(url_for('furniture.tip_list'))
-    return render_template('furniture/tip_edit.html', form=form)
+    return render_template('furniture/tip_edit.html', form=form, nav_types=get_nav_types())
 
 
 @furniture_blueprint.route('/tip_edit/<int:tip_id>', methods=['GET', 'POST'])
 @login_required
 def tip_edit(tip_id):
+
     # 先获取tip对象
     tip = db.session.query(Tips).get(tip_id)
     # 如果request.form空，使用tip对象
@@ -57,7 +63,7 @@ def tip_edit(tip_id):
         db.session.commit()
         flash(u'更新成功', 'success')
         return redirect(url_for('furniture.tip_list'))
-    return render_template('furniture/tip_edit.html', form=form)
+    return render_template('furniture/tip_edit.html', form=form, nav_types=get_nav_types())
 
 
 @furniture_blueprint.route('/tip_delete/<int:tip_id>')
@@ -78,12 +84,13 @@ def tip_delete(tip_id):
 @furniture_blueprint.route('/tips')
 @login_required
 def tip_list(page_id=1):
+    
     page_index = get_page_index(page_id)
     paginate = Tips.query.paginate(page_index, PAGE_SIZE, False)
     num = Tips.query.filter().count()
     page = Page(num, page_index, page_size=PAGE_SIZE)
 
-    return render_template('furniture/tips.html', pagination=paginate, page=page)
+    return render_template('furniture/tips.html', pagination=paginate, page=page, nav_types=get_nav_types())
 
 
 # types
@@ -93,6 +100,7 @@ def tip_list(page_id=1):
 @furniture_blueprint.route('/types')
 @login_required
 def types_list(page_id=1):
+
     # 转义 Types AS parent_types
     parent_types = aliased(Types, name='parent_types')
     page_index = get_page_index(page_id)
@@ -105,7 +113,7 @@ def types_list(page_id=1):
         .outerjoin(parent_types, parent_types.type_id == Types.parent_type_id)\
         .filter().all()[page.offset:page.offset+page.limit]
 
-    return render_template('furniture/types.html', page=page, types=types)
+    return render_template('furniture/types.html', page=page, types=types, nav_types=get_nav_types())
 
 
 def get_parent():
@@ -120,6 +128,7 @@ def get_parent():
 @furniture_blueprint.route('/type_create', methods=['GET', 'POST'])
 @login_required
 def type_edit(type_id=None):
+
     class TypesForm(Form):
         type_name = StringField(u'类型名称')
         type_note = TextAreaField(u'类型描述')
@@ -142,7 +151,7 @@ def type_edit(type_id=None):
             flash(u'新增成功', 'success')
         db.session.commit()
         return redirect(url_for('furniture.types_list'))
-    return render_template('furniture/type_edit.html', form=form)
+    return render_template('furniture/type_edit.html', form=form, nav_types=get_nav_types())
 
 
 '''
@@ -296,13 +305,14 @@ def product_edit(product_id=None):
     form.product_tips.data = []
     for tip in tips:
         form.product_tips.data.append(str(tip.tip_id))
-    return render_template('furniture/product_edit.html', form=form)
+    return render_template('furniture/product_edit.html', form=form, nav_types=get_nav_types())
 
 
 @furniture_blueprint.route('/products')
 @furniture_blueprint.route('/products/<int:page_id>')
 @login_required
 def products_list(page_id=1):
+
     page_index = get_page_index(page_id)
     # paginate = Products.query.paginate(page_index, PAGE_SIZE, False)
     num = Products.query.filter().count()
@@ -311,7 +321,7 @@ def products_list(page_id=1):
         .outerjoin(Types, Products.type_id == Types.type_id)\
         .filter().all()[page.offset:page.offset+page.limit]
 
-    return render_template('furniture/products.html', products=products, page=page)
+    return render_template('furniture/products.html', products=products, page=page, nav_types=get_nav_types())
 
 
 @furniture_blueprint.route('/product_delete/<int:product_id>')

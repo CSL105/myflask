@@ -18,10 +18,13 @@ class Page(object):
             self.limit = self.page_size
         self.has_next = self.page_index < self.page_count
         self.has_previous = self.page_index > 1
+        '''
         if self.page_count > 10:
             self.button_num = 10
         else:
             self.button_num = self.page_count
+        '''
+        self.button_num = self.page_count
 
     def __str__(self):
         return 'item_count: %s, page_count: %s, page_index: %s, page_size: %s, offset: %s, limit: %s, has_next:\

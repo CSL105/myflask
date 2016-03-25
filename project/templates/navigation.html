@@ -30,6 +30,18 @@
              </li>
         {% endif %}
       </ul>
+      {% if nav_types %}
+      <ul class="nav navbar-nav">
+             <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">ProductTypes<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      {% for type in nav_types %}
+                        <li><a href="/this_type/{{ type.type_id }}">{{ type.type_name }}</a></li>
+                      {% endfor %}
+                  </ul>
+             </li>
+      </ul>
+      {% endif %}
       <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated() %}
           <li><a href="{{ url_for('user.logout') }}">Logout</a></li>
